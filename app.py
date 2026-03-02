@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 # ======================================================
 # Page config
 # ======================================================
-st.set_page_config(page_title="Current Rose Tool", layout="wide")
+st.set_page_config(page_title="Rose Plot Tool", layout="wide")
 st.title("Rose Plot with Directional Extreme Bars & Annual Maxima")
 
 # ======================================================
@@ -180,4 +180,5 @@ if st.button("🚀 Generate Rose Plot"):
 
     except Exception as e:
         st.error(f"❌ Error: {e}")
+
 
