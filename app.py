@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 # Page config
 # ======================================================
 st.set_page_config(page_title="Current Rose Tool", layout="wide")
-st.title("🌊 Current Rose with Directional Extreme Bars & Annual Maxima")
+st.title("Rose Plot with Directional Extreme Bars & Annual Maxima")
 
 # ======================================================
 # Sidebar – Time Settings
@@ -17,7 +17,7 @@ st.sidebar.header("⏱ Time Settings")
 
 start_time_str = st.sidebar.text_input(
     "Start Time (dd-mm-yyyy hh:mm)",
-    value="01-01-2025 00:00"
+    value="01-01-2005 00:00"
 )
 
 col1, col2, col3, col4 = st.sidebar.columns(4)
@@ -36,16 +36,16 @@ interval = timedelta(
 # ======================================================
 # Inputs
 # ======================================================
-st.subheader("📥 Paste Current Speed Data")
+st.subheader("📥 Paste Time Series Data")
 raw_current = st.text_area(
-    "Format: speed[TAB]direction(deg)",
+    "Format: value[TAB]direction(deg)",
     height=200,
     placeholder="2.44\t301.35\n2.61\t303.69\n2.59\t291.55"
 )
 
-st.subheader("📥 Paste Extreme Data (Directional Design Current)")
+st.subheader("📥 Paste Extreme Data (Directional Design)")
 raw_extreme = st.text_area(
-    "Format: DIR[TAB]speed",
+    "Format: DIR[TAB]value",
     height=150,
     placeholder="N\t3.93\nNE\t4.81\nE\t6.43\nSE\t5.00\nS\t5.59\nSW\t6.07\nW\t7.52\nNW\t6.50"
 )
@@ -97,7 +97,7 @@ def bin_direction(deg, bins=8):
 # ======================================================
 # Plot
 # ======================================================
-if st.button("🚀 Generate Current Rose"):
+if st.button("🚀 Generate Rose Plot"):
     try:
         df_current = parse_current_data(raw_current)
         df_extreme = parse_extreme_data(raw_extreme)
@@ -137,7 +137,7 @@ if st.button("🚀 Generate Current Rose"):
         ax = plt.subplot(111, polar=True)
 
         # Current scatter
-        ax.scatter(theta, r, s=12, alpha=0.5, label="Current Data")
+        ax.scatter(theta, r, s=12, alpha=0.5, label="Data")
 
         # Extreme bars (outline only)
         ax.bar(
@@ -148,7 +148,7 @@ if st.button("🚀 Generate Current Rose"):
             fill=False,              # no fill color
             edgecolor="red",         # red outline
             linewidth=2,
-            label="Extreme (Design Current)"
+            label="Extreme Value"
         )
 
         # Annual maxima dots
@@ -169,7 +169,7 @@ if st.button("🚀 Generate Current Rose"):
         st.pyplot(fig)
 
         # Tables
-        st.subheader("📊 Parsed Current Data")
+        st.subheader("📊 Parsed Data")
         st.dataframe(df_current)
 
         st.subheader("📊 Annual Maximum per Direction per Year")
@@ -180,3 +180,4 @@ if st.button("🚀 Generate Current Rose"):
 
     except Exception as e:
         st.error(f"❌ Error: {e}")
+
